@@ -1,0 +1,11 @@
+{
+  "name": "json-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db": "npx json-server -w db.json 3000"
+  },
+  "author": "",
+  "license": "ISC"
+}
