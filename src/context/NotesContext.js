@@ -12,8 +12,15 @@ const notesReducer = (state, action) => {
 }
 
 const getNotes = async (dispatch) => {
-    response = await jsonServer.get('/notes')
-    dispatch({ type:"GET_NOTES", payload:response })
+    return async () => {
+        try {
+            response = await jsonServer.get('/notes')
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+        dispatch({ type:"GET_NOTES", payload:response.data })
+    }
 }
 
  export const {Context, Provider} = createNotesContext(
