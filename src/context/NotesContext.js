@@ -16,10 +16,10 @@ const getNotes = async (dispatch) => {
         try {
             response = await jsonServer.get('/notes')
             console.log(response)
+            dispatch({ type:"GET_NOTES", payload:response.data })
         } catch (error) {
             console.log(error)
         }
-        dispatch({ type:"GET_NOTES", payload:response.data })
     }
 }
 

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View,Text,StyleSheet } from "react-native";
+import { View,Text,StyleSheet,FlatList } from "react-native";
 import { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
@@ -25,9 +25,21 @@ const IndexScreen = ( {navigation} ) => {
   }, [navigation])
   return (
     <View>
-      <Text>
-        This is the home screen!
-      </Text>
+      <Text>lol</Text>
+      <FlatList 
+        data = {state.notes}
+        renderItem = {({item})=> (
+          <View>
+            <Text>
+              {item.title}
+            </Text>
+            <Text>
+              {item.description}
+            </Text>
+          </View>
+        )}
+        keyExtractor =  {item => item.title}
+      />
     </View>
   )
 }
@@ -42,6 +54,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold'
+  },
+  viewStyle : {
+    padding:20
+  },
+  textStyle: {
+    fontSize:24
   }
 })
 
