@@ -7,8 +7,6 @@ import { Context } from "../context/NotesContext"
 
 const IndexScreen = ( {navigation} ) => {
   const { state,getNotes } = useContext(Context)
-  console.log(state)
-  console.log(getNotes)
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -38,7 +36,6 @@ const IndexScreen = ( {navigation} ) => {
             </Text>
           </View>
         )}
-        keyExtractor =  {item => item.title}
       />
     </View>
   )
