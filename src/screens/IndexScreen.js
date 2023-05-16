@@ -4,44 +4,47 @@ import { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Context } from "../context/NotesContext"
+import { Card } from '@rneui/themed';
+import { CardDivider } from "@rneui/base/dist/Card/Card.Divider";
 
 const IndexScreen = ( {navigation} ) => {
   const { state,getNotes } = useContext(Context)
+  console.log(state)
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={() => console.log("pressed")} >
-          <Feather size={26} name="plus" />
-        </TouchableOpacity>
-      ),
       headerTitle: () => (
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Notes</Text>
+          <Text style={styles.title}>Notes App</Text>
         </View>
       )
     })
   }, [navigation])
   return (
-    <View>
-      <Text>lol</Text>
+    <View style = {styles.view}>
       <FlatList 
-        data = {state.notes}
+        data = {state}
         renderItem = {({item})=> (
-          <View>
-            <Text>
-              {item.title}
-            </Text>
-            <Text>
-              {item.description}
-            </Text>
-          </View>
+          <Card>
+            <Card.Title>{item.title}</Card.Title>
+            <CardDivider/>
+            <Text>{item.description}</Text>
+          </Card>
         )}
+        keyExtractor={(item) =>  item.title}
       />
+      <TouchableOpacity onPress={() => navigation.navigate("Add Note")} style={styles.buttonStyle} >
+        <Text>
+          <Feather size={32} name="plus" />
+        </Text>
+      </TouchableOpacity>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  view:{
+    flex:1
+  },
   titleContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -56,7 +59,33 @@ const styles = StyleSheet.create({
     padding:20
   },
   textStyle: {
-    fontSize:24
+    fontSize:24,
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 100,
+    backgroundColor: 'orange',
+  },
+  buttonStyle:{
+    width:60,
+    height:60,
+    marginRight:20,
+    marginBottom:20,
+    justifyContent:'center',
+    alignItems:'center',
+    alignSelf:'flex-end',
+    padding:10,
+    borderRadius:100,
+    backgroundColor:'#EDEADE',
+    borderColor:'black',
+    borderWidth:2,
+    shadowColor: 'rgba(0, 0, 0, 1)',
+    shadowOpacity: 0.8,
+    elevation: 6,
+    shadowRadius: 15 ,
+    shadowOffset : { width: 1, height: 13},
   }
 })
 
