@@ -1,4 +1,4 @@
-import React,{Children, useReducer} from "react";
+import React,{ useReducer} from "react";
 
 //an automatic context creator which sends children wrapped with provider, so that all children have access to state and reducer functions
 export default (reducerFunction, actions, initialState) => {

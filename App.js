@@ -2,7 +2,7 @@ import React from "react";
 import HomeScreen from "./src/screens/HomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { Provider } from "./src/context/NotesContext";
 const Stack = createNativeStackNavigator()
 
 const App = () => {
@@ -15,4 +15,10 @@ const App = () => {
   )
 }
 
-export default App;
+export default () => {
+  return(
+    <Provider>
+      <App/>
+    </Provider>
+  )
+};

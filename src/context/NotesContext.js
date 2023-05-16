@@ -1,6 +1,6 @@
-import React from "react";
-import { useReducer } from "react";
 import createNotesContext from "./createNotesContext";
+import jsonServer from "../api/jsonServer";
+import notes from "./db.json"
 
 const notesReducer = (state, action) => {
     switch (action.type) {
@@ -11,6 +11,13 @@ const notesReducer = (state, action) => {
     }
 }
 
-const getNotes = (dispatch) => {
-    
+const getNotes = async (dispatch) => {
+    response = await jsonServer.get('/notes')
+    dispatch({ type:"GET_NOTES", payload:response })
 }
+
+ export const {Context, Provider} = createNotesContext(
+    notesReducer,
+    {getNotes},
+    notes
+)
