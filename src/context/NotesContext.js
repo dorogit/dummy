@@ -1,13 +1,14 @@
 import createNotesContext from "./createNotesContext";
 import jsonServer from "../api/jsonServer";
 import {notes} from "../api/json-server/db.json"
-import * as RNFS from 'react-native-fs'
+import * as FileSystem from 'expo-file-system';
 
 const notesReducer = (state, action) => {
     switch (action.type) {
         case "GET_NOTES":
             return action.payload    
         case "ADD_NOTE":
+            console.log("work")
             return [...state, action.payload]
         default:
             return state
@@ -35,14 +36,15 @@ const addNote = (dispatch) => {
     return async (title, description, callback) => {
         const note = {title:title, description:description, id: Math.floor(Math.random()*10000)}
         try {
-            const response = await jsonServer.post('/Notes', note )
+            const response = await jsonServer.post('/notes', note )
+            console.log(response)
             if (response.status != 201) {
-                const filePath = RNFS.DocumentDirectoryPath + '/src/api/json-server/db.json'
-                const data = await RNFS.readFile(filePath)
+                const filePath = FileSystem.documentDirectory + 'src/api/json-server/db.json';
+                const data = await FileSystem.readAsStringAsync(filePath);
                 const notesArray = JSON.parse(data).notes
 
                 notesArray.push(note)
-                await RNFS.writeFile(filePath, JSON.stringify({ notes: notesArray }));
+                await FileSystem.writeAsStringAsync(filePath, JSON.stringify({ notes: notesArray }));
             }
             dispatch({type:"ADD_NOTE", payload: note})
             callback()
