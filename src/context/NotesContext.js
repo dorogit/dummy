@@ -16,7 +16,10 @@ const notesReducer = (state, action) => {
 }
 
 const getNotes = (dispatch) => {
+    console.log("HETTING NOTES ABC")
     return async () => {
+        console
+        .log("GETTING NOTES!!r")
         response = await jsonServer.get('/notes')
         try {
             response = await jsonServer.get('/notes')
@@ -34,23 +37,21 @@ const getNotes = (dispatch) => {
 
 const addNote = (dispatch) => {
     return async (title, description, callback) => {
+        print("HERE IN ADD NOTES!!")
         const note = {title:title, description:description, id: Math.floor(Math.random()*10000)}
-        try {
-            const response = await jsonServer.post('/notes', note )
-            console.log(response)
-            if (response.status != 201) {
-                const filePath = FileSystem.documentDirectory + 'src/api/json-server/db.json';
-                const data = await FileSystem.readAsStringAsync(filePath);
-                const notesArray = JSON.parse(data).notes
 
-                notesArray.push(note)
-                await FileSystem.writeAsStringAsync(filePath, JSON.stringify({ notes: notesArray }));
-            }
-            dispatch({type:"ADD_NOTE", payload: note})
-            callback()
-        } catch (error) {
-            console.log(error)
+        const response = await jsonServer.post('/notes', note )
+        console.log("HERE ::: ", response)
+        if (response.status != 201) {
+            const filePath = FileSystem.documentDirectory + 'src/api/json-server/db.json';
+            const data = await FileSystem.readAsStringAsync(filePath);
+            const notesArray = JSON.parse(data).notes
+
+            notesArray.push(note)
+            await FileSystem.writeAsStringAsync(filePath, JSON.stringify({ notes: notesArray }));
         }
+        dispatch({type:"ADD_NOTE", payload: note})
+        callback()
     }
 }
 

@@ -1,24 +1,32 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { View,Text,StyleSheet,FlatList } from "react-native";
 import { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { Context } from "../context/NotesContext"
 import { Card } from '@rneui/themed';
 import { CardDivider } from "@rneui/base/dist/Card/Card.Divider";
+import AsyncStorage from 'react-native'
 
 const IndexScreen = ( {navigation} ) => {
-  const { state,getNotes } = useContext(Context)
-  console.log(state)
+  const { notes,setNotes } = useState([])
+
+  const getAllNotes = async () => {
+    // async storage
+    const allNotes = await AsyncStorage.getItem('notes');
+    setNotes(allNotes)
+  }
+
+  const setAllNiortes = (note) =>{
+    notes.push(note)
+    await AsyncStorage.setItem('notes', notes);
+  }
+
   useEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Notes App</Text>
-        </View>
-      )
-    })
+    getAllNotes()
+
   }, [navigation])
+
+  
   return (
     <View style = {styles.view}>
       <FlatList 

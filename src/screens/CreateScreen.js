@@ -3,9 +3,9 @@ import { Text,View,TextInput,StyleSheet,TouchableOpacity } from "react-native";
 import { Context } from "../context/NotesContext";
 
 const CreateScreen = ( {navigation} ) => {
-  const [title, setTitle] = useState('')
-  const [description,setDescription] = useState('')
-  const {addNote} = useContext(Context)
+  const [ title, setTitle ] = useState('')
+  const [ description,setDescription ] = useState('')
+  const { addNote } = useContext(Context)
 
   return (
     <View style = {styles.viewStyle}>
@@ -17,7 +17,7 @@ const CreateScreen = ( {navigation} ) => {
         Description for the Note:
       </Text>
       <TextInput style = {[styles.inputStyle,{height:150}]} value={description} onChangeText={(text) => setDescription(text)} />
-      <TouchableOpacity onPress={() => addNote(title, description, () => navigation.navigate('Notes'))} >
+      <TouchableOpacity onPress={() =>{navigation.navigate('Notes', parse)}} >
         <Text>
           Add Note
         </Text>
