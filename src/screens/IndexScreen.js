@@ -7,41 +7,35 @@ import { CardDivider } from "@rneui/base/dist/Card/Card.Divider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const IndexScreen = ({ route, navigation }) => {
-  const [notes, setNotes] = useState([{ "title":"this is my title","description":"this is a desc" }]);
-
+  const [notes, setNotes] = useState([{ "title":"A simple Notes app","description":"Made with React Native" }]);
   const getAllNotes = async () => {
     const allNotes = await AsyncStorage.getItem("notes");
     if (allNotes) {
       setNotes(JSON.parse(allNotes));
     }
   };
-  
-  notes.forEach((note, index) => {
-    if (note === undefined) {
-      notes.splice(index, 1);
-    }
-  });
 
   const setAllNotes = async (note) => {
     const updatedNotes = [...notes, note];
     try {
       await AsyncStorage.setItem("notes", JSON.stringify(updatedNotes));
       setNotes(updatedNotes);
-      console.log(updatedNotes);
     } catch (error) {
       console.log("Error storing notes:", error);
     }
   };  
 
   useEffect(() => {
+    navigation.setOptions({
+      headerTitleAlign:"center"
+    })
     getAllNotes();
     const listener = navigation.addListener("focus", () => {
-      setAllNotes(route.params);
+      if (route.params !== undefined) {
+        setAllNotes(route.params);
+      }
     });
-    return () => {
-      listener.remove();
-    };
-  }, [navigation]);
+  }, [navigation,route.params]);
 
   return (
     <View style={styles.view}>
@@ -51,10 +45,10 @@ const IndexScreen = ({ route, navigation }) => {
           <Card>
             <Card.Title>{item.title}</Card.Title>
             <CardDivider />
-            <Text>{item.description}</Text>
+            <Text style ={{alignSelf:"center"}}>{item.description}</Text>
           </Card>
         )}
-        keyExtractor={(item) => item.title}
+        key={Math.floor(Math.random() * 100000)}
       />
       <TouchableOpacity
         onPress={() => navigation.navigate("Add Note")}
